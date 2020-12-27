@@ -1,39 +1,79 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {connect} from 'react-redux'
+import {register} from '../../actions/auth'
 
-class Register extends Component{
-     render() {
-         return(
-             <div className="col-md-6 m-auto">
-                 <div className="card card-body mt-5">
-                     <h2 className="text-center">Register</h2>
-                     <form action="">
-                         <div className="form-group">
-                             <label for="">Username</label>
-                             <input type="text" className="form-control" name="username" onChange="" value=""/>
-                         </div>
-                         <div className="form-group">
-                             <label htmlFor="">Email</label>
-                             <input type="email" className="form-control" name="email" onChange="" value=""/>
-                         </div>
-                         <div className="form-group">
-                             <label htmlFor="">Password</label>
-                             <input type="password" className="form-control" name="password" onChange="" value=""/>
-                         </div>
-                          <div className="form-group">
-                             <label htmlFor="">Confirm Password</label>
-                             <input type="password" className="form-control" name="password2" onChange="" value=""/>
-                         </div>
-                          <div className="form-group">
-                             <button type="submit" className="btn btn-primary">Register</button>
-                         </div>
-                         <p>
-                             Already have an account ?
-                         </p>
-                     </form>
-                 </div>
-             </div>
-         )
+class Register extends Component {
+    state={
+        username:'',
+        email: '',
+        password:'',
+        password2:''
+    };
+    onSubmit = (e)=>{
+        e.preventDefault()
+        // console.warn('OnSubmit',this.state)
+        const {username,email,password,password2} = this.state
+        if (password !== password2){
+            console.log("Invalide password")
+        }
+        else {
+            const newUser = {
+                username,
+                password,
+                email
+            };
+            this.props.registerHandler(newUser)
+        }
+    }
+    onChange = (e)=>{
+        console.warn("Onchange",e.target)
+        this.setState({[e.target.name]:e.target.value})
+    }
+    render() {
+        console.warn("Registration Props", this.props)
+        return (
+            <div className="col-md-6 m-auto">
+                <div className="card card-body mt-5">
+                    <h2 className="text-center">Register</h2>
+                    <form action='' onSubmit={this.onSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="">Username</label>
+                            <input type="text" className="form-control" onChange={this.onChange} name="username"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">Email</label>
+                            <input type="email" className="form-control" onChange={this.onChange} name="email"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">Password</label>
+                            <input type="password" className="form-control" name="password" onChange={this.onChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">Confirm Password</label>
+                            <input type="password" className="form-control" name="password2" onChange={this.onChange} />
+                        </div>
+                        <div className="form-group">
+                            <button type="submit"
+                                    className="btn btn-primary">
+                                Register
+                            </button>
+                        </div>
+                        <p>
+                            Already have an account ?
+                        </p>
+                    </form>
+                </div>
+                {/*<button onClick={()=>this.props.registerHandler({data:"action done"})}>Action</button>*/}
+            </div>
+        )
     }
 }
-export default Register;
+
+const mapStateToProps = (state) => ({
+    isAuthenticate: state.isAuthenticate
+});
+const mapDispatchToProps = () => ({
+    registerHandler: (data)=> register(data)
+});
+export default connect(mapStateToProps,mapDispatchToProps)(Register)

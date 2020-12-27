@@ -12,15 +12,15 @@ class Form extends Component {
                         <form action="">
                             <div className="form-group">
                                 <label htmlFor="">Name</label>
-                                <input type="text" className="form-control" name="name" onChange="" value=""/>
+                                <input type="text" className="form-control" name="name"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Email</label>
-                                <input type="email" className="form-control" name="email" onChange="" value=""/>
+                                <input type="email" className="form-control" name="email"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Message</label>
-                                <input type="text" className="form-control" name="message" onChange="" value=""/>
+                                <input type="text" className="form-control" name="message"/>
                             </div>
 
                             <div className="form-group">

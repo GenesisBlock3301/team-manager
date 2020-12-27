@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const state = {
+        leads:[1]
+    };
+    const t = {
+        stat:'s',
+        val:'Yes'
+    };
+    function test(t){
+        switch (t.stat) {
+            case 's':
+                console.warn("T-type",t.stat)
+                return{
+                    ...state,
+                    leads: t.val,
+                };
+            default:
+                return state
+        }
+    }
+    console.log(test(t))
+</script>
+</body>
+</html>

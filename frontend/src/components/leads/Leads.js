@@ -1,8 +1,11 @@
 import React, {Component, Fragment} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {connect} from 'react-redux'
+
 
 class Leads extends Component {
     render() {
+        console.warn("Leads component", this.props.leads)
         return (
             <Fragment>
                 <h2>Leads</h2>
@@ -20,7 +23,7 @@ class Leads extends Component {
                         <td>mdnuraminsifat380@gmail.com</td>
                         <td>Hello, Sifat</td>
                         <td>
-                            <button onClick="" className="btn btn-danger">Delete</button>
+                            <button className="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -30,4 +33,9 @@ class Leads extends Component {
     }
 }
 
-export default Leads;
+const mapStateToProps = (state) => ({
+    leads: state.leads.leads
+});
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Leads);
