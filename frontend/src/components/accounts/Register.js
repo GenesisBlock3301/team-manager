@@ -11,7 +11,6 @@ class Register extends Component {
         password2:''
     };
     onSubmit = (e)=>{
-        e.preventDefault()
         // console.warn('OnSubmit',this.state)
         const {username,email,password,password2} = this.state
         if (password !== password2){
@@ -20,14 +19,15 @@ class Register extends Component {
         else {
             const newUser = {
                 username,
+                email,
                 password,
-                email
             };
             this.props.registerHandler(newUser)
         }
+        e.preventDefault()
     }
     onChange = (e)=>{
-        console.warn("Onchange",e.target)
+        // console.warn("Onchange",e.target)
         this.setState({[e.target.name]:e.target.value})
     }
     render() {
@@ -73,7 +73,7 @@ class Register extends Component {
 const mapStateToProps = (state) => ({
     isAuthenticate: state.isAuthenticate
 });
-const mapDispatchToProps = () => ({
-    registerHandler: (data)=> register(data)
+const mapDispatchToProps = (dispatch) => ({
+    registerHandler: (data)=> register(data,dispatch)
 });
 export default connect(mapStateToProps,mapDispatchToProps)(Register)

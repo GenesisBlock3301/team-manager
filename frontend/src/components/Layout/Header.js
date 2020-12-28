@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-
+import {logout} from '../../actions/auth'
 
 class Header extends Component {
     render() {
-        console.warn("Header props", this.props.auth);
+        console.warn("Header props", this.props);
         const {isAuthenticate, user} = this.props.auth
         const authLinks = (
             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -14,7 +14,7 @@ class Header extends Component {
                     <strong>{user ?`Welcome ${user.username}`:''}</strong>
                 </span>
                 <li className="nav-item">
-                    <button type="submit" className="nav-link btn btn-info btn-sm text-light">Logout</button>
+                    <button onClick={this.props.logoutHandler} className="nav-link btn btn-info btn-sm text-light">Logout</button>
                 </li>
             </ul>
         );
@@ -59,4 +59,7 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth
 });
-export default connect(mapStateToProps)(Header);
+const mapDispatchTopProps=(dispatch)=>({
+    logoutHandler: ()=>logout(dispatch)
+});
+export default connect(mapStateToProps,mapDispatchTopProps)(Header);
