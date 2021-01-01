@@ -5,13 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 //
-import {createStore} from 'redux'
+// import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import rootReducer from './reducers/index'
+// import rootReducer from './reducers/index'
+// //
+// export default store = createStore(rootReducer);
+// console.warn("Store data",store.getState());
 //
-const store = createStore(rootReducer);
-console.warn("Store data",store);
-//
+import store from './store'
 
 ReactDOM.render(
   <Provider store={store}>

@@ -2,25 +2,45 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILED,
     LOGIN_SUCCESS,
-    LOGIN_FAILED
+    LOGIN_FAILED,
+    USER_LOADING,
+    USER_LOADED,
+    AUTH_ERROR, LOGOUT_SUCCESS,
 } from './types'
 import axios from "axios";
 import {returnError} from './messages'
 
 //Check token and Load User
+export const LoadUser = () => (dispatch, getState) => {
+    // console.log("User Loading")
+    dispatch({type: USER_LOADING})
+    axios.get('http://127.0.0.1:8000/api/auth/user/', tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data
+            });
+        })
+        .catch((err) => {
+            dispatch(returnError(err.response.data, err.response.status))
+            dispatch({
+                type: AUTH_ERROR
+            })
+        })
+};
 
 //tokenConfigure
-export const tokenConfig=(getState)=>{
-  //  get token from state
-  const token = getState.auth.token;
-//  header
-    const config ={
-        headers:{
+export const tokenConfig = (getState) => {
+    //  get token from state
+    const token = getState().auth.token;
+//  headers config
+    const config = {
+        headers: {
             "Content-Type": "application/json"
         }
-    }
+    };
 //    if token, add to header config
-    if(token){
+    if (token) {
         config.headers['Authorization'] = `Token ${token}`
     }
     return config
@@ -36,11 +56,11 @@ export const register = (data, dispatch) => {
 //    Request body
     const {username, email, password} = data;
     const body = JSON.stringify({username, email, password});
-    console.log("Body value", body)
+    console.log("Body value", body);
     axios
         .post('http://127.0.0.1:8000/api/auth/register/', body, config)
         .then((resp) => {
-            console.warn("Register Response",resp.data)
+            console.warn("Register Response", resp.data);
             dispatch({
                 type: REGISTER_SUCCESS,
                 payload: resp.data,
@@ -93,12 +113,17 @@ export const login = (data, dispatch) => {
 };
 
 //User logout
-export const logout=(dispatch)=>{
-    console.log("Logout Action")
-    
-};
-//set up config with token
-export const tokenConfig = (getState) => {
-    
+export const logout= () => (dispatch, getState) => {
+    console.log("Logout Action",dispatch,getState)
+    axios.post('http://127.0.0.1:8000/api/auth/logout/', null, tokenConfig(getState))
+        .then((res) => {
+            // dispatch({type: 'CLEAR_LEADS'});
+            dispatch({
+                type: LOGOUT_SUCCESS
+            });
+        })
+        .catch((err) => {
+            dispatch(returnError(err.response.data, err.response.status));
+        })
 };
 

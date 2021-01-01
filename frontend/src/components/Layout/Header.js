@@ -6,15 +6,16 @@ import {logout} from '../../actions/auth'
 
 class Header extends Component {
     render() {
-        console.warn("Header props", this.props);
-        const {isAuthenticate, user} = this.props.auth
+        console.warn("Header props", this.props.auth);
+        const {isAuthenticate, user} = this.props.auth;
+        console.log("H-auth",isAuthenticate,user)
         const authLinks = (
             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                 <span className="navbar-text mr-0">
                     <strong>{user ?`Welcome ${user.username}`:''}</strong>
                 </span>
                 <li className="nav-item">
-                    <button onClick={this.props.logoutHandler} className="nav-link btn btn-info btn-sm text-light">Logout</button>
+                    <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">Logout</button>
                 </li>
             </ul>
         );
@@ -59,7 +60,4 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth
 });
-const mapDispatchTopProps=(dispatch)=>({
-    logoutHandler: ()=>logout(dispatch)
-});
-export default connect(mapStateToProps,mapDispatchTopProps)(Header);
+export default connect(mapStateToProps,{logout})(Header);
