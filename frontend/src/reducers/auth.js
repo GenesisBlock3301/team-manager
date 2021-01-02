@@ -6,7 +6,7 @@ import {
     USER_LOADED,
     USER_LOADING,
     AUTH_ERROR, LOGOUT_SUCCESS
-} from '../actions/types'
+} from '../actions/types';
 
 
 const initialState = {
@@ -19,7 +19,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case USER_LOADING:
-            console.log("User loading")
+            // console.log("User loading")
             return {
                 ...state,
                 isLoading: true

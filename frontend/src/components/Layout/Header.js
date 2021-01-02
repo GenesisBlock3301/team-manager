@@ -6,7 +6,7 @@ import {logout} from '../../actions/auth'
 
 class Header extends Component {
     render() {
-        console.warn("Header props", this.props.auth);
+        console.warn("Header props", this.props);
         const {isAuthenticate, user} = this.props.auth;
         console.log("H-auth",isAuthenticate,user)
         const authLinks = (
@@ -50,7 +50,7 @@ class Header extends Component {
                             Lead Manager
                         </a>
                     </div>
-                    {isAuthenticate ? authLinks : guestLinks}
+                    {isAuthenticate ? authLinks:guestLinks}
                 </div>
             </nav>
         )

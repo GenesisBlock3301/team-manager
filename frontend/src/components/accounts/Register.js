@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {connect} from 'react-redux'
 import {register} from '../../actions/auth'
+import {Redirect,Link} from 'react-router-dom'
 
 class Register extends Component {
     state={
@@ -25,13 +26,16 @@ class Register extends Component {
             this.props.registerHandler(newUser)
         }
         e.preventDefault()
-    }
+    };
     onChange = (e)=>{
         // console.warn("Onchange",e.target)
         this.setState({[e.target.name]:e.target.value})
-    }
+    };
     render() {
-        console.warn("Registration Props", this.props)
+        // console.warn("Registration Props",)
+        if(this.props.isAuthenticate){
+            return (<Redirect to="/"/>);
+        }
         return (
             <div className="col-md-6 m-auto">
                 <div className="card card-body mt-5">
@@ -60,7 +64,7 @@ class Register extends Component {
                             </button>
                         </div>
                         <p>
-                            Already have an account ?
+                            Already have an account ?<Link to="/login/">Login</Link>
                         </p>
                     </form>
                 </div>
@@ -71,7 +75,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isAuthenticate: state.isAuthenticate
+    isAuthenticate: state.auth.isAuthenticate
 });
 const mapDispatchToProps = (dispatch) => ({
     registerHandler: (data)=> register(data,dispatch)

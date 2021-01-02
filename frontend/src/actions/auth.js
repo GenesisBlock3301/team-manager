@@ -22,29 +22,13 @@ export const LoadUser = () => (dispatch, getState) => {
             });
         })
         .catch((err) => {
-            dispatch(returnError(err.response.data, err.response.status))
+            dispatch(returnError(err.response.data, err.response.status));
             dispatch({
                 type: AUTH_ERROR
             })
         })
 };
 
-//tokenConfigure
-export const tokenConfig = (getState) => {
-    //  get token from state
-    const token = getState().auth.token;
-//  headers config
-    const config = {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    };
-//    if token, add to header config
-    if (token) {
-        config.headers['Authorization'] = `Token ${token}`
-    }
-    return config
-};
 // Register User
 export const register = (data, dispatch) => {
     console.warn("Register data", data, typeof dispatch);
@@ -114,10 +98,10 @@ export const login = (data, dispatch) => {
 
 //User logout
 export const logout= () => (dispatch, getState) => {
-    console.log("Logout Action",dispatch,getState)
     axios.post('http://127.0.0.1:8000/api/auth/logout/', null, tokenConfig(getState))
         .then((res) => {
             // dispatch({type: 'CLEAR_LEADS'});
+            console.log("Logout action success",res.data)
             dispatch({
                 type: LOGOUT_SUCCESS
             });
@@ -127,3 +111,19 @@ export const logout= () => (dispatch, getState) => {
         })
 };
 
+// #token config
+export const tokenConfig = (getState) => {
+    //  get token from state
+    const token = getState().auth.token;
+//  headers config
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+//    if token, add to header config
+    if (token) {
+        config.headers['Authorization'] = `Token ${token}`
+    }
+    return config
+};
