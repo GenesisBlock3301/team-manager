@@ -3,5 +3,5 @@ from .api_views import *
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register("api/lead/",LeadViewSet,'leads')
+router.register("api/leads",LeadViewSet,'leads')
 urlpatterns =  router.urls

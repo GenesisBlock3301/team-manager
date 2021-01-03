@@ -1,11 +1,16 @@
 import React, {Component, Fragment} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {connect} from 'react-redux'
+import {getLeads,deleteLead} from '../../actions/leads'
 
 
 class Leads extends Component {
+    componentDidMount() {
+        this.props.getLeads();
+    }
+
     render() {
-        console.warn("Leads component", this.props.leads)
+        console.warn("Get Leads", this.props.leads)
         return (
             <Fragment>
                 <h2>Leads</h2>
@@ -18,14 +23,19 @@ class Leads extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>171-15-1463</td>
-                        <td>mdnuraminsifat380@gmail.com</td>
-                        <td>Hello, Sifat</td>
-                        <td>
-                            <button className="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                    {this.props.leads.map((lead) => (
+                        <tr key={lead.id}>
+                            <td>{lead.id}</td>
+                            <td>{lead.email}</td>
+                            <td>{lead.message}</td>
+                            <td>
+                                <button onClick={()=>this.props.deleteLead(lead.id)} className="btn btn-danger">
+                                    {' '}
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </Fragment>
@@ -36,6 +46,4 @@ class Leads extends Component {
 const mapStateToProps = (state) => ({
     leads: state.leads.leads
 });
-const mapDispatchToProps = () => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Leads);
+export default connect(mapStateToProps, {getLeads,deleteLead})(Leads);
